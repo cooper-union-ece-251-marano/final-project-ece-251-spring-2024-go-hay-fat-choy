@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // The Cooper Union
 // ECE 251 Spring 2024
-// Engineer: Zachary Hsieh and Andrew Yuan
+// Engineer: Andrew Yuan and Zachary Hsieh
 // 
 //     Create Date: 2023-02-07
 //     Module Name: adder
