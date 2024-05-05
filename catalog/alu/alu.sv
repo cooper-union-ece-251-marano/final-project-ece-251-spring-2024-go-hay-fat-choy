@@ -5,7 +5,7 @@
 // 
 //     Create Date: 2023-02-07
 //     Module Name: alu
-//     Description: 16-bit RISC-based CPU alu (MIPS)
+//     Description: 32-bit RISC-based CPU alu (MIPS)
 //
 // Revision: 1.0
 // see https://github.com/Caskman/MIPS-Processor-in-Verilog/blob/master/ALU32Bit.v
