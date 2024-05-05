@@ -22,20 +22,18 @@ module alu
     //
 
     input logic clk,
-    input logic [(n-1):0], a, b,
+    input logic [n-1:0] a, 
+    input logic [n-1:0] b,
     input logic [2:0] op,
-    output logic [(n-1): 0] y,
+    output logic [n-1: 0] y,
     output logic zero
 );
     //
     // ---------------- MODULE DESIGN IMPLEMENTATION ----------------
     //
 
-    logic [(n-1):0]invertb;
 
-    assign zero = (y == {n{1'b0}}); 
-    assign invertb = op[2] ? ~b : b; //inverting
-    assign subtraction = a + invertb + op[2];   //adding the two's complement invertedb along with 1 and then adding a on top of it: effectively subtraction
+    assign zero = (y == {n{1'b0}}); //assigning zero to be the matching n bits of the output, with each output to be 0
 
     always @(a,b,op) begin
         case(op)
@@ -43,18 +41,10 @@ module alu
             3'b001: y = a | b;  //or
             3'b010: y = a + b;  //add
             3'b011: y = ~(a | b);   //nor
-            3'b100: y = subtraction;    subtract
-            3'b101: begin   //set less than
-                if (a < b) 
-                begin
-                    y = 1;
-                end
-                else
-                begin
-                    y = 0;
-                end
-            end
-            3'b110: y = zero;
+            3'b100: y = a-b;    //subtract
+            3'b101: y = (a < b) ? {n{1'b1}} : {n{1'b0}};   //set less than
+            3'b110: y = a << b[3:0]; //sll; we have 16 bits, so our max shift amount of 16, which is 4 bits of b if we assume that b is the shift amount and a is the shifted number
+            3'b111: y = a >> b[3:0]; //slr
         endcase
     end
 

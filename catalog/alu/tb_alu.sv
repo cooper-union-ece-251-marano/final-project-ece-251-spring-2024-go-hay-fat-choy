@@ -125,7 +125,7 @@ end
 //
 // ---------------- INSTANTIATE UNIT UNDER TEST (UUT) ----------------
 //
-adder uut(.a(A), .b(B), .clk(CLK), .op(OP), .zero(ZERO), .y(Y));
+alu uut(.a(A), .b(B), .clk(CLK), .op(OP), .zero(ZERO), .y(Y));
 
 
 endmodule
