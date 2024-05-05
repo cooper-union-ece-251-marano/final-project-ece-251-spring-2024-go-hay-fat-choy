@@ -17,7 +17,7 @@
 `include "./adder.sv"
 
 module tb_adder;
-   parameter N = 8;
+   parameter N = 16;
 
    reg [N-1:0] A;
    reg [N-1:0] B;   //inputs are reg for test bench
