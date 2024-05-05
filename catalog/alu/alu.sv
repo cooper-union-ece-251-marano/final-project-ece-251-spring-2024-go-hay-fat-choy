@@ -5,7 +5,7 @@
 // 
 //     Create Date: 2023-02-07
 //     Module Name: alu
-//     Description: 32-bit RISC-based CPU alu (MIPS)
+//     Description: 16-bit RISC-based CPU alu (MIPS)
 //
 // Revision: 1.0
 // see https://github.com/Caskman/MIPS-Processor-in-Verilog/blob/master/ALU32Bit.v
@@ -31,32 +31,30 @@ module alu
     // ---------------- MODULE DESIGN IMPLEMENTATION ----------------
     //
 
-    logic [(n-1):0]invertb, sum;
+    logic [(n-1):0]invertb;
 
-    assign zero = (y == {n{1'b0}});
-    assign invertb = op[2] ? ~b : b;
-    assign sumSlt = a + invertb + op[2];
+    assign zero = (y == {n{1'b0}}); 
+    assign invertb = op[2] ? ~b : b; //inverting
+    assign subtraction = a + invertb + op[2];   //adding the two's complement invertedb along with 1 and then adding a on top of it: effectively subtraction
 
     always @(a,b,op) begin
         case(op)
-            3'b000: y = a & b;
-            3'b001: y = a | b;
-            3'b010: y = a + b;
-            3'b011: y = ~(a | b);
-            3'b100: y = sumSlt;
-            3'b101: begin
-                if (a[31] != b[31])
-                    if(a[31]>b[31])
-                        y = 1;
-                    else
-                        y = 0;
+            3'b000: y = a & b;  //and
+            3'b001: y = a | b;  //or
+            3'b010: y = a + b;  //add
+            3'b011: y = ~(a | b);   //nor
+            3'b100: y = subtraction;    subtract
+            3'b101: begin   //set less than
+                if (a < b) 
+                begin
+                    y = 1;
+                end
                 else
-                    if(a<b)
-                        y=1;
-                    else
-                        y=0;
+                begin
+                    y = 0;
+                end
             end
-            3'b110: y = 0;
+            3'b110: y = zero;
         endcase
     end
 
