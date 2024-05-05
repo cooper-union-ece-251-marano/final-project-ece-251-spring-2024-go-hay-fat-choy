@@ -17,7 +17,7 @@
 `include "alu.sv"
 
 module tb_alu;
-    parameter N = 16;
+    parameter N = 32;
 
     reg [N-1:0] A;
     reg [N-1:0] B;
