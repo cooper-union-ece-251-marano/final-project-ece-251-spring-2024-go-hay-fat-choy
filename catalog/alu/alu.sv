@@ -43,8 +43,8 @@ module alu
             3'b011: y = ~(a | b);   //nor
             3'b100: y = a-b;    //subtract
             3'b101: y = (a < b) ? {n{1'b1}} : {n{1'b0}};   //set less than
-            3'b110: y = a << b[3:0]; //sll; we have 16 bits, so our max shift amount of 16, which is 4 bits of b if we assume that b is the shift amount and a is the shifted number
-            3'b111: y = a >> b[3:0]; //slr
+            3'b110: y = a << b[4:0]; //sll; we have 32 bits, so our max shift amount of 32, which is 5 bits of b if we assume that b is the shift amount and a is the shifted number
+            3'b111: y = a >> b[4:0]; //slr
         endcase
     end
 
