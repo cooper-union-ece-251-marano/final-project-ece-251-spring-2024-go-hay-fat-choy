@@ -20,7 +20,7 @@ module aludec
     //
     // ---------------- PORT DEFINITIONS ----------------
     //
-    input logic [3:0] funct,      //
+    input logic [5:0] funct,      //
     input logic [1:0] aluop,      //Operation type
     output logic [2:0] alucontrol //ALU operations
     );
@@ -34,14 +34,14 @@ module aludec
         2'b10: alucontrol <= 3'b100; // subi (for beq)
         2'b01: alucontrol <= 3'b101; //slt (for slti)
             default: case(funct)           // R-type instructions
-                4'b0000: alucontrol <= 3'b000; // and
-                4'b0001: alucontrol <= 3'b001; // or
-                4'b0010: alucontrol <= 3'b010; // add
-                4'b0011: alucontrol <= 3'b011; // nor
-                4'b0100: alucontrol <= 3'b100; // subtract
-                4'b0101: alucontrol <= 3'b101; // slt
-                4'b0110: alucontrol <= 3'b110; // sll
-                4'b0111: alucontrol <= 3'b111; // slr
+                6'b100100: alucontrol <= 3'b000; // and
+                6'b100101: alucontrol <= 3'b001; // or
+                6'b100000: alucontrol <= 3'b010; // add
+                6'b100111: alucontrol <= 3'b011; // nor
+                6'b100010: alucontrol <= 3'b100; // subtract
+                6'b101010: alucontrol <= 3'b101; // slt
+                6'b000000: alucontrol <= 3'b110; // sll
+                6'b000010: alucontrol <= 3'b111; // slr
                 default: alucontrol <= 3'bxxx; // ???
             endcase
         endcase

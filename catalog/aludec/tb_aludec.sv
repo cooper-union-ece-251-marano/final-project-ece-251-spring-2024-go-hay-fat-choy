@@ -18,7 +18,7 @@
 
 module tb_aludec;
  // Inputs
-    reg [3:0] funct;
+    reg [5:0] funct;
     reg [1:0] aluop;
 
     // Outputs
@@ -41,21 +41,21 @@ module tb_aludec;
         #100;
         
         // Test various combinations
-        funct = 4'b0000; aluop = 2'b00; #100;
-        funct = 4'b0001; aluop = 2'b00; #100;
-        funct = 4'b0010; aluop = 2'b00; #100;
-        funct = 4'b0011; aluop = 2'b00; #100;
-        funct = 4'b0100; aluop = 2'b00; #100;
-        funct = 4'b0101; aluop = 2'b00; #100;
-        funct = 4'b0110; aluop = 2'b00; #100;
-        funct = 4'b0111; aluop = 2'b00; #100;
+        funct = 6'b100000; aluop = 2'b00; #100;
+        funct = 6'b100101; aluop = 2'b00; #100;
+        funct = 6'b100000; aluop = 2'b00; #100;
+        funct = 6'b100111; aluop = 2'b00; #100;
+        funct = 6'b100010; aluop = 2'b00; #100;
+        funct = 6'b101010; aluop = 2'b00; #100;
+        funct = 6'b000000; aluop = 2'b00; #100;
+        funct = 6'b000010; aluop = 2'b00; #100;
 
-        funct = 4'bxxxx; aluop = 2'b01; #100; // Tests for partial don't care in `funct`
-        funct = 4'bxxxx; aluop = 2'b10; #100; // Tests for partial don't care in `funct`
-        funct = 4'bxxxx; aluop = 2'b11; #100; // Tests for partial don't care in `funct`
+        funct = 6'bxxxxxx; aluop = 2'b01; #100; // Tests for partial don't care in `funct`
+        funct = 6'bxxxxxx; aluop = 2'b10; #100; // Tests for partial don't care in `funct`
+        funct = 6'bxxxxxx; aluop = 2'b11; #100; // Tests for partial don't care in `funct`
 
         // Additional test for undefined operation
-        funct = 4'b0101; aluop = 2'b11; #100;
+        funct = 6'b010101; aluop = 2'b11; #100;
 
         // Finish simulation
         $finish;
