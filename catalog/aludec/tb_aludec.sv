@@ -62,9 +62,9 @@ module tb_aludec;
     end
 
     // Monitor changes
-    /*initial begin
+    initial begin
         $monitor("At time %t, funct = %b, aluop = %b, alucontrol = %b", $time, funct, aluop, alucontrol);
-    end*/
+    end
 
 endmodule
 `endif // TB_ALUDEC
