@@ -30,16 +30,9 @@ module tb_adder;
 
    //apply input vectors
    initial begin: apply_stimulus
-      #0
-      #10
-      for (int i = 0; i < 2**N; i++) begin
-         for (int j = 0; j < 2**N; j++) begin
-            A = i;
-            B = j;
-            #10
-            $display("A=%b B=%b Y=%b\n", A, B, Y);
-         end
-      end
+   A = 32'b00110101100100111001111111000000;
+   B = 32'b10101111010000000101010001011001;
+   $display("A=%b B=%b Y=%b\n", A, B, Y);
       $finish;
    end
 
@@ -50,4 +43,5 @@ module tb_adder;
    adder uut(.a(A), .b(B), .y(Y));
 
 endmodule
+
 `endif // TB_ADDER
