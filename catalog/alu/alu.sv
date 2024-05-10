@@ -33,7 +33,7 @@ module alu
     //
 
 
-    assign zero = (y == {n{1'b0}}); //assigning zero to be the matching n bits of the output, with each output to be 0
+    assign zero = (y==0);
 
     always @(a,b,op) begin
         case(op)

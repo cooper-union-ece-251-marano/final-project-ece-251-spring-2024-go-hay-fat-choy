@@ -35,90 +35,43 @@ module tb_alu;
         #5 CLK = ~CLK;
     end
 
+    always @(posedge CLK) 
+    begin
+        case (OP)
+            3'b000: $display("A=%b B=%b OP=%b Y=%b Zero=%b\n", A, B, OP, Y, ZERO);
+            3'b001: $display("A=%b B=%b OP=%b Y=%b Zero=%b\n", A, B, OP, Y, ZERO);
+            3'b010: $display("A=%b B=%b OP=%b Y=%b Zero=%b\n", A, B, OP, Y, ZERO);
+            3'b011: $display("A=%b B=%b OP=%b Y=%b Zero=%b\n", A, B, OP, Y, ZERO);
+            3'b100: $display("A=%b B=%b OP=%b Y=%b Zero=%b\n", A, B, OP, Y, ZERO);
+            3'b101: $display("A=%b B=%b OP=%b Y=%b Zero=%b\n", A, B, OP, Y, ZERO);
+            3'b110: $display("A=%b B=%b OP=%b Y=%b Zero=%b\n", A, B, OP, Y, ZERO);
+            3'b111: $display("A=%b B=%b OP=%b Y=%b Zero=%b\n", A, B, OP, Y, ZERO);
+        endcase
+    end
+
 
     //apply input vectors
-    initial begin : prog_apply_stimuli
-    #0
-    #10 
+    initial begin
+    $dumpfile("tb_alu.vcd");
+    $dumpvars(0, tb_alu.uut);
+    A = 32'b11100000010100010110011110101010;
+    B = 32'b01100001100101100100101001011111;
+    CLK = 0;
+    #10;
     OP = 3'b000;
-    for(int i=0; i<2**N; i++)
-        begin
-        for(int j=0; j<2**N; j++)
-            begin
-                A = i;
-                B = j;
-                #10
-                $display("A=%b B=%b OP=%b Y=%b\n", A, B, OP, Y);
-            end
-        end
-    #10 
+    #10;
     OP = 3'b001;
-    for(int i=0; i<2**N; i++)
-        begin
-        for(int j=0; j<2**N; j++)
-            begin
-                A = i;
-                B = j;
-                #10
-                $display("A=%b B=%b OP=%b Y=%b\n", A, B, OP, Y);
-            end
-        end
+    #10;
     OP = 3'b010;
-    for(int i=0; i<2**N; i++)
-        begin
-        for(int j=0; j<2**N; j++)
-            begin
-                A = i;
-                B = j;
-                #10
-                $display("A=%b B=%b OP=%b Y=%b\n", A, B, OP, Y);
-            end
-        end
+    #10;
     OP = 3'b011;
-    for(int i=0; i<2**N; i++)
-        begin
-        for(int j=0; j<2**N; j++)
-            begin
-                A = i;
-                B = j;
-                #10
-                $display("A=%b B=%b OP=%b Y=%b\n", A, B, OP, Y);
-            end
-        end
+    #10;
     OP = 3'b100;
-    for(int i=0; i<2**N; i++)
-        begin
-        for(int j=0; j<2**N; j++)
-            begin
-                A = i;
-                B = j;
-                #10
-                $display("A=%b B=%b OP=%b Y=%b\n", A, B, OP, Y);
-            end
-        end
+    #10;
     OP = 3'b101;
-    for(int i=0; i<2**N; i++)
-        begin
-        for(int j=0; j<2**N; j++)
-            begin
-                A = i;
-                B = j;
-                #10
-                $display("A=%b B=%b OP=%b Y=%b\n", A, B, OP, Y);
-            end
-        end
+    #10;
     OP = 3'b110;
-    for(int i=0; i<2**N; i++)
-        begin
-        for(int j=0; j<2**N; j++)
-            begin
-                A = i;
-                B = j;
-                #10
-                $display("A=%b B=%b OP=%b Y=%b\n", A, B, OP, Y);
-            end
-        end 
-    #10
+    #10;
     $finish;
 end
 
