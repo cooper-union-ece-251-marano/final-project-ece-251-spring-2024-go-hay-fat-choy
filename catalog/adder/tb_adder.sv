@@ -21,59 +21,33 @@ module tb_adder;
 
    reg [N-1:0] A;
    reg [N-1:0] B;   //inputs are reg for test bench
-   reg EN;
 
-   wire [N-1:0] SUM;     //outputs are wire for test bench
-   wire CARRY;
+   wire [N-1:0] Y;     //outputs are wire for test bench
    
    //
    // ---------------- INITIALIZE TEST BENCH ----------------
    //
-   initial
-     begin
-        $dumpfile("tb_example_module.vcd"); // for Makefile, make dump file same as module name
-        $dumpvars(0, uut);
-     end
-
-   initial begin : initialize_variable
-   A = 8'b00000000;
-   B = 8'b00000000;
-   EN = 1'b1;
-   end
 
    //apply input vectors
-   initial
-   begin: apply_stimulus
+   initial begin: apply_stimulus
       #0
-      #10 EN = 1'b1;
-      for(int i=0; i<2**N; i++)
-         begin
-            for(int j=0; j<2**N; j++)
-               begin
-                  A = i;
-                  B = j;
-                  #10
-                  $display("A=%b B=%b EN=%b CARRY=%b SUM=%b\n", A, B, EN, CARRY, SUM);
-               end
-         end
-      #10 EN = 1'b0;
-      for(int i=0; i<2**N; i++)
-         begin
-            for(int j=0; j<2**N; j++)
-               begin
-                  A = i;
-                  B = j;
-                  #10
-                  $display("A=%b B=%b EN=%b CARRY=%b SUM=%b\n", A, B, EN, CARRY, SUM);
-               end
-         end
       #10
+      for (int i = 0; i < 2**N; i++) begin
+         for (int j = 0; j < 2**N; j++) begin
+            A = i;
+            B = j;
+            #10
+            $display("A=%b B=%b Y=%b\n", A, B, Y);
+         end
+      end
       $finish;
    end
+
 
    //
    // ---------------- INSTANTIATE UNIT UNDER TEST (UUT) ----------------
    //
-   adder uut(.a(A), .b(B), .en(EN), .sum(SUM), .carry(CARRY));
+   adder uut(.a(A), .b(B), .y(Y));
 
 endmodule
+`endif // TB_ADDER
