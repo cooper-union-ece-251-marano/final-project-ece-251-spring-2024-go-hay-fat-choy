@@ -40,11 +40,11 @@ module cpu
     
     controller c(instr[(31):26], instr[5:0], zero,
                     memtoreg, memwrite, pcsrc,
-                    alusrc, regdst, regwrite, jump, jumpreg
+                    alusrc, regdst, regwrite, jump, jumpreg,
                     alucontrol);
 
     datapath dp(clk, reset, memtoreg, pcsrc,
-                    alusrc, regdst, regwrite, jump, jumpreg
+                    alusrc, regdst, regwrite, jump, jumpreg,
                     alucontrol,
                     zero, pc, instr,
                     aluout, writedata, readdata);
