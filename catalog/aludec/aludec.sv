@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // The Cooper Union
 // ECE 251 Spring 2024
-// Engineer: YOUR NAMES
+// Engineer: Zachary Hsieh & Andrew Yuan
 // 
 //     Create Date: 2023-02-07
 //     Module Name: aludec
@@ -30,7 +30,7 @@ module aludec
     always @*
     begin
         case(aluop)                  //I-type instructions
-        2'b11: alucontrol <= 3'b010; // addi (for lw/sw/addi)
+        2'b11: alucontrol <= 3'b010; // addi (for lw/sw/jr/addi)
         2'b10: alucontrol <= 3'b100; // subi (for beq)
         2'b01: alucontrol <= 3'b101; //slt (for slti)
             default: case(funct)           // R-type instructions
