@@ -32,7 +32,7 @@ module dmem
 
     assign readdata = RAM[addr[(n-1):2]]; // word aligned (ignores lower 2 bits of address)
 
-    always @(posedge clk) // write on posedge
+    always @(posedge clk) // write on negedge
         if (write_enable) RAM[addr[(n-1):2]] <= writedata;
 
 endmodule
