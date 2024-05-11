@@ -28,6 +28,7 @@ module tb_maindec;
     wire MEMWRITE;
     wire MEMTOREG;
     wire JUMP;
+    wire JUMPREG;
     wire [1:0] ALUOP;
 
     //apply input vectors
@@ -39,7 +40,7 @@ module tb_maindec;
     begin
         OP = i;
         #10;
-        $display("OP: %b\tOUTPUT: %b%b%b%b%b%b%b%b\n", OP, REGWRITE, REGDST, ALUSRC, BRANCH, MEMWRITE, MEMTOREG, JUMP, ALUOP);
+        $display("OP: %b\tOUTPUT: %b%b%b%b%b%b%b%b%b\n", OP, REGWRITE, REGDST, ALUSRC, BRANCH, MEMWRITE, MEMTOREG, JUMP, JUMPREG, ALUOP);
         #10;
     end
     #10
@@ -50,7 +51,7 @@ end
 // ---------------- INSTANTIATE UNIT UNDER TEST (UUT) ----------------
 //
 maindec uut(.op(OP), .regwrite(REGWRITE), .regdst(REGDST), .alusrc(ALUSRC), .branch(BRANCH), .memwrite(MEMWRITE), .memtoreg(MEMTOREG),
-            .jump(JUMP), .aluop(ALUOP));
+            .jump(JUMP), .jumpreg(JUMPREG), .aluop(ALUOP));
 
 
 endmodule

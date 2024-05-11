@@ -24,29 +24,30 @@ module maindec
     output logic       memtoreg, memwrite,
     output logic       branch, alusrc,
     output logic       regdst, regwrite,
-    output logic       jump,
+    output logic       jump, jumpreg,
     output logic [1:0] aluop
 );
     //
     // ---------------- MODULE DESIGN IMPLEMENTATION ----------------
     //
-    logic [8:0] controls; // 9-bit control vector
+    logic [9:0] controls; // 10-bit control vector
 
-    // controls has 9 logical signals
+    // controls has 10 logical signals
     assign {regwrite, regdst, alusrc, branch, memwrite,
-            memtoreg, jump, aluop} = controls;
+            memtoreg, jump, jumpreg, aluop} = controls;
 
     always @* begin
         case(op)
-            6'b000000: controls <= 9'b110000000; // RTYPE
-            6'b000001: controls <= 9'b101001011; // LW
-            6'b000010: controls <= 9'b001010011; // SW
-            6'b000011: controls <= 9'b101000011; // ADDI
-            6'b000100: controls <= 9'b000100010; // BEQ
-            6'b000101: controls <= 9'b101000001; // STLI
-            6'b000110: controls <= 9'b000000100; // Jump
-            6'b000111: controls <= 9'b110001100; //JAL
-            default:   controls <= 9'bxxxxxxxxx; // illegal operation
+            6'b000000: controls <= 10'b1100000000; // RTYPE
+            6'b000001: controls <= 10'b1010010011; // LW
+            6'b000010: controls <= 10'b0010100011; // SW
+            6'b000011: controls <= 10'b1010000011; // ADDI
+            6'b000100: controls <= 10'b0001000010; // BEQ
+            6'b000101: controls <= 10'b1010000001; // STLI
+            6'b000110: controls <= 10'b0000001000; // Jump
+            6'b000111: controls <= 10'b1100011000; //JAL
+            6'b001000: controls <= 10'b0010001111; //jr
+            default:   controls <= 10'bxxxxxxxxxx; // illegal operation
         endcase
     end
 
