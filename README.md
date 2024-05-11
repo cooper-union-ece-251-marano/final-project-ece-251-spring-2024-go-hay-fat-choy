@@ -5,6 +5,21 @@ This work is based off the MIPS Verilog code by [Harris and Harris](https://page
 
 The basis of the single cycle computer as provided by these Verilog components:
 
+This processor is single-cycled with 32-bit words and byte addressable memory. The datapath components include a program counter, a memory split into data and 
+instruction memory, a regfile of 32 registers,, an ALU, a sign extender for immediate values, a maindecoder, an ALU decoder, several MUXes, and 2 adders. The main decoder and ALU decoder together form the controller, which turns on and off the other components in the data path to execute certain actions depending on the 
+input instruction. 
+
+To successfully demo, the mult-prog_exe file must be modified so that instructions, using our ISA, are hand compiled into machine code in hex and placed into the file. There can be no more than 64 instructions at a time due to instruction memory size limitations, and anything underneath that size should have the rest of the lines filled as 8 0s. In this case, there is a leaf and recursive demonstration (fibonacci) attached. To run the program, underneath the \catalog\computer directory, run:
+```
+make compile simulate
+```
+To view the timing diagram on GTKWave, run:
+```
+make display
+```
+
+Note that the duration alotted in each of the programs vary, so in the tb_computer.sv file underneath \catalog\computer, underneath the "// initialize test" commend, change the number next to finish. In the two demos, the leaf code will run and finish with 150, and the fib code will run with_________
+
 ```verilog
 // mips.sv
 // From Section 7.6 of Digital Design & Computer Architecture
