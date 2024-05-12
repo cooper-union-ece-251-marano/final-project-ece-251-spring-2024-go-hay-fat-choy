@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // The Cooper Union
 // ECE 251 Spring 2024
-// Engineer: Prof Rob Marano
+// Engineer: Zachary Hsieh & Andrew Yuan
 // 
 //     Create Date: 2023-02-07
 //     Module Name: regfile
@@ -30,7 +30,7 @@ module regfile
     //
     // ---------------- MODULE DESIGN IMPLEMENTATION ----------------
     //
-    logic [(n-1):0] rf[(2**5-1):0];
+    logic [(n-1):0] rf[(2**r-1):0];
 
     // three ported register file
     // read two ports combinationally
@@ -38,6 +38,13 @@ module regfile
     // register 0 hardwired to 0
     // note: for pipelined processor, write third port
     // on falling edge of clk
+    initial begin
+        int i;
+        for(i = 0; i<2**r-1; i = i + 1)
+            begin
+                rf[i] <= 32'b0;
+            end
+    end
 
     always @(posedge clk)
         if (we3) rf[wa3] <= wd3;	

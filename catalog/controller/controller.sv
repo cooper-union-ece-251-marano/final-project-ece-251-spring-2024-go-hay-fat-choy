@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // The Cooper Union
 // ECE 251 Spring 2024
-// Engineer: Prof Rob Marano
+// Engineer: Zachary Hsieh & Andrew Yuan
 // 
 //     Create Date: 2023-02-07
 //     Module Name: controller
@@ -28,7 +28,7 @@ module controller
     output logic       memtoreg, memwrite,
     output logic       pcsrc, alusrc,
     output logic       regdst, regwrite,
-    output logic       jump,
+    output logic       jump, jumpreg,
     output logic [2:0] alucontrol
 );
     //
@@ -38,7 +38,7 @@ module controller
     logic       branch;
     
     // CPU main decoder
-    maindec md(op, memtoreg, memwrite, branch, alusrc, regdst, regwrite, jump, aluop);
+    maindec md(op, memtoreg, memwrite, branch, alusrc, regdst, regwrite, jump, jumpreg, aluop);
     // CPU's ALU decoder
     aludec  ad(funct, aluop, alucontrol);
 

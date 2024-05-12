@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // The Cooper Union
 // ECE 251 Spring 2024
-// Engineer: YOUR NAMES
+// Engineer: Andrew Yuan and Zachary Hsieh
 // 
 //     Create Date: 2023-02-07
 //     Module Name: adder
@@ -20,11 +20,17 @@ module adder
     //
     // ---------------- PORT DEFINITIONS ----------------
     //
-
+    
+    input logic [n-1:0] a,
+    input logic [n-1:0] b,
+    output logic [n-1:0] y
 );
+
     //
     // ---------------- MODULE DESIGN IMPLEMENTATION ----------------
     //
+    assign y = a + b;
+
 
 endmodule
 

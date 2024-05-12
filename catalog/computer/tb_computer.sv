@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // The Cooper Union
 // ECE 251 Spring 2024
-// Engineer: Prof Rob Marano
+// Engineer: Zachary Hsieh & Andrew Yuan
 // 
 //     Create Date: 2023-02-07
 //     Module Name: tb_computer
@@ -45,8 +45,9 @@ module tb_computer;
   initial begin
     firstTest = 1'b0;
     secondTest = 1'b0;
-    $dumpfile("tb_computer.vcd");
+    $dumpfile("computer.vcd");
     $dumpvars(0,dut1,clk,reset,writedata,dataadr,memwrite);
+    $dumpvars(0,dut,clk,reset,writedata,dataadr,memwrite);
     $monitor("t=%t\t0x%7h\t%7d\t%8d",$realtime,writedata,dataadr,memwrite);
     // $dumpvars(0,clk,a,b,ctrl,result,zero,negative,carryOut,overflow);
     // $display("Ctl Z  N  O  C  A                    B                    ALUresult");
@@ -55,37 +56,54 @@ module tb_computer;
 
   // initialize test
   initial begin
-    #0 clk_enable <= 0; #50 reset <= 1; # 50; reset <= 0; #50 clk_enable <= 1;
-    #100 $finish;
+    #0 clk_enable <= 1; #10 reset <= 1; #10; reset <= 0;
+    //#530 $finish; //fib
+    #90 $finish; //leaf
   end
 
   // monitor what happens at posedge of clock transition
   always @(posedge clk)
   begin
-      $display("+");
-      $display("\t+instr = 0x%8h",dut.instr);
-      $display("\t+op = 0b%6b",dut.mips.c.op);
-      $display("\t+controls = 0b%9b",dut.mips.c.md.controls);
-      $display("\t+funct = 0b%6b",dut.mips.c.ad.funct);
-      $display("\t+aluop = 0b%2b",dut.mips.c.ad.aluop);
-      $display("\t+alucontrol = 0b%3b",dut.mips.c.ad.alucontrol);
-      $display("\t+alu result = 0x%8h",dut.mips.dp.alu.result);
-      $display("\t+HiLo = 0x%8h",dut.mips.dp.alu.HiLo);
-      $display("\t+$v0 = 0x%4h",dut.mips.dp.rf.rf[2]);
-      $display("\t+$v1 = 0x%4h",dut.mips.dp.rf.rf[3]);
-      $display("\t+$a0 = 0x%4h",dut.mips.dp.rf.rf[4]);
-      $display("\t+$a1 = 0x%4h",dut.mips.dp.rf.rf[5]);
-      $display("\t+$t0 = 0x%4h",dut.mips.dp.rf.rf[8]);
-      $display("\t+$t1 = 0x%4h",dut.mips.dp.rf.rf[9]);
-      $display("\t+regfile -- ra1 = %d",dut.mips.dp.rf.ra1);
-      $display("\t+regfile -- ra2 = %d",dut.mips.dp.rf.ra2);
-      $display("\t+regfile -- we3 = %d",dut.mips.dp.rf.we3);
-      $display("\t+regfile -- wa3 = %d",dut.mips.dp.rf.wa3);
-      $display("\t+regfile -- wd3 = %d",dut.mips.dp.rf.wd3);
-      $display("\t+regfile -- rd1 = %d",dut.mips.dp.rf.rd1);
-      $display("\t+regfile -- rd2 = %d",dut.mips.dp.rf.rd2);
-      $display("\t+RAM[%4d] = %4d",dut.dmem.addr,dut.dmem.readdata);
-      $display("writedata\tdataadr\tmemwrite");
+    $display("+");
+    $display("\t+instr = 0x%8h",dut.instr);
+    $display("\t+pc = 0x%8h", dut.mips.dp.pc);
+    $display("\t+$a0 = 0x%8h", dut.mips.dp.rf.rf[4]);
+    $display("\t+pcbranch = 0x%8h", dut.mips.dp.pcbranch);
+    $display("\t+ra1 = %b", dut.mips.dp.instr[25:21]);
+    $display("\t+ra2 = %b", dut.mips.dp.instr[20:16]);
+    //$display("\t+aluzero = %b", dut.mips.dp.alu.zero);
+    //$display("\t+aluA = 0x%8h", dut.mips.dp.alu.a);
+    //$display("\t+aluB = 0x%8h", dut.mips.dp.alu.b);
+    //$display("\t+alu = 0x%8h", dut.mips.dp.alu.y);
+    //$display("\t+op = 0b%6b",dut.mips.c.op);
+    //$display("\t+controls = 0b%9b",dut.mips.c.md.controls);
+    //$display("\t+funct = 0b%6b",dut.mips.c.ad.funct);
+    //$display("\t+aluop = 0b%2b",dut.mips.c.ad.aluop);
+    //$display("\t+alucontrol = 0b%3b",dut.mips.c.ad.alucontrol);
+    //$display("\t+alu result = 0x%8h",dut.mips.dp.alu.y);
+    //$display("\t+HiLo = 0x%8h",dut.mips.dp.alu.HiLo);
+    //$display("\t+$sp = 0x%4h", dut.mips.dp.rf.rf[29]);
+    $display("\t+$s0 = 0x%4h", dut.mips.dp.rf.rf[16]);
+    //$display("\t+$ra = 0x%4h", dut.mips.dp.rf.rf[31]);
+    $display("\t+$v0 = 0x%4h",dut.mips.dp.rf.rf[2]);
+    $display("\t+$s1 = 0x%4h", dut.mips.dp.rf.rf[17]);
+    $display("\t+$s2 = 0x%4h", dut.mips.dp.rf.rf[18]);
+    //$display("\t+$v1 = 0x%4h",dut.mips.dp.rf.rf[3]);
+    //$display("\t+$a0 = 0x%4h",dut.mips.dp.rf.rf[4]);
+    //$display("\t+$a1 = 0x%4h",dut.mips.dp.rf.rf[5]);
+    $display("\t+$t0 = 0x%4h",dut.mips.dp.rf.rf[8]);
+    $display("\t+$t1 = 0x%4h",dut.mips.dp.rf.rf[9]);
+    $display("\t+$t2 = 0x%4h",dut.mips.dp.rf.rf[10]);
+    $display("\t+$t3 = 0x%4h",dut.mips.dp.rf.rf[11]);
+    //$display("\t+regfile -- ra1 = %d",dut.mips.dp.rf.ra1);
+    //$display("\t+regfile -- ra2 = %d",dut.mips.dp.rf.ra2);
+    //$display("\t+regfile -- we3 = %d",dut.mips.dp.rf.we3);
+    //$display("\t+regfile -- wa3 = %d",dut.mips.dp.rf.wa3);
+    //$display("\t+regfile -- wd3 = %d",dut.mips.dp.rf.wd3);
+    //$display("\t+regfile -- rd1 = %d",dut.mips.dp.rf.rd1);
+    //$display("\t+regfile -- rd2 = %d",dut.mips.dp.rf.rd2);
+    //$display("\t+RAM[%4d] = %4d",dut.dmem.addr,dut.dmem.readdata);
+    //$display("writedata\tdataadr\tmemwrite");
   end
 
   // run program
@@ -93,28 +111,45 @@ module tb_computer;
   always @(negedge clk) begin
     $display("-");
     $display("\t-instr = 0x%8h",dut.instr);
-    $display("\t-op = 0b%6b",dut.mips.c.op);
-    $display("\t-controls = 0b%9b",dut.mips.c.md.controls);
-    $display("\t-funct = 0b%6b",dut.mips.c.ad.funct);
-    $display("\t-aluop = 0b%2b",dut.mips.c.ad.aluop);
-    $display("\t-alucontrol = 0b%3b",dut.mips.c.ad.alucontrol);
-    $display("\t-alu result = 0x%8h",dut.mips.dp.alu.result);
-    $display("\t-HiLo = 0x%8h",dut.mips.dp.alu.HiLo);
+    $display("\t-pc = 0x%8h", dut.mips.dp.pc);
+    $display("\t-pcbranch = 0x%8h", dut.mips.dp.pcbranch);
+    $display("\t-$a0 = 0x%8h", dut.mips.dp.rf.rf[4]);
+    $display("\t-ra1 = %b", dut.mips.dp.instr[25:21]);
+    $display("\t-ra2 = %b", dut.mips.dp.instr[20:16]);
+    //$display("\t-aluzero = %b", dut.mips.dp.alu.zero);
+    //$display("\t-aluA = 0x%8h", dut.mips.dp.alu.a);
+    //$display("\t-aluB = 0x%8h", dut.mips.dp.alu.b);
+    //$display("\t-alu = 0x%8h", dut.mips.dp.alu.y);
+    //$display("\t-op = 0b%6b",dut.mips.c.op);
+    //$display("\t-controls = 0b%9b",dut.mips.c.md.controls);
+    //$display("\t-funct = 0b%6b",dut.mips.c.ad.funct);
+    //$display("\t-aluop = 0b%2b",dut.mips.c.ad.aluop);
+    //$display("\t-alucontrol = 0b%3b",dut.mips.c.ad.alucontrol);
+    //$display("\t-alu result = 0x%8h",dut.mips.dp.alu.y);
+
+    //$display("\t-HiLo = 0x%8h",dut.mips.dp.alu.HiLo);
+    //$display("\t-$sp = 0x%4h", dut.mips.dp.rf.rf[29]);
+    $display("\t-$s0 = 0x%4h", dut.mips.dp.rf.rf[16]);
+    //$display("\t-$ra = 0x%4h", dut.mips.dp.rf.rf[31]);
     $display("\t-$v0 = 0x%4h",dut.mips.dp.rf.rf[2]);
-    $display("\t-$v1 = 0x%4h",dut.mips.dp.rf.rf[3]);
-    $display("\t-$a0 = 0x%4h",dut.mips.dp.rf.rf[4]);
-    $display("\t-$a1 = 0x%4h",dut.mips.dp.rf.rf[5]);
+    $display("\t-$s1 = 0x%4h", dut.mips.dp.rf.rf[17]);
+    $display("\t-$s2 = 0x%4h", dut.mips.dp.rf.rf[18]);
+    //$display("\t-$v1 = 0x%4h",dut.mips.dp.rf.rf[3]);
+    //$display("\t-$a0 = 0x%4h",dut.mips.dp.rf.rf[4]);
+    //$display("\t-$a1 = 0x%4h",dut.mips.dp.rf.rf[5]);
     $display("\t-$t0 = 0x%4h",dut.mips.dp.rf.rf[8]);
     $display("\t-$t1 = 0x%4h",dut.mips.dp.rf.rf[9]);
-    $display("\t-regfile -- ra1 = %d",dut.mips.dp.rf.ra1);
-    $display("\t-regfile -- ra2 = %d",dut.mips.dp.rf.ra2);
-    $display("\t-regfile -- we3 = %d",dut.mips.dp.rf.we3);
-    $display("\t-regfile -- wa3 = %d",dut.mips.dp.rf.wa3);
-    $display("\t-regfile -- wd3 = %d",dut.mips.dp.rf.wd3);
-    $display("\t-regfile -- rd1 = %d",dut.mips.dp.rf.rd1);
-    $display("\t-regfile -- rd2 = %d",dut.mips.dp.rf.rd2);
-    $display("\t+RAM[%4d] = %4d",dut.dmem.addr,dut.dmem.readdata);
-    $display("writedata\tdataadr\tmemwrite");
+    $display("\t-$t2 = 0x%4h",dut.mips.dp.rf.rf[10]);
+    $display("\t-$t3 = 0x%4h",dut.mips.dp.rf.rf[11]);
+    //$display("\t-regfile -- ra1 = %d",dut.mips.dp.rf.ra1);
+    //$display("\t-regfile -- ra2 = %d",dut.mips.dp.rf.ra2);
+    //$display("\t-regfile -- we3 = %d",dut.mips.dp.rf.we3);
+    //$display("\t-regfile -- wa3 = %d",dut.mips.dp.rf.wa3);
+    //$display("\t-regfile -- wd3 = %d",dut.mips.dp.rf.wd3);
+    //$display("\t-regfile -- rd1 = %d",dut.mips.dp.rf.rd1);
+    //$display("\t-regfile -- rd2 = %d",dut.mips.dp.rf.rd2);
+    //$display("\t+RAM[%4d] = %4d",dut.dmem.addr,dut.dmem.readdata);
+    //$display("writedata\tdataadr\tmemwrite");
   end
 
   always @(negedge clk, posedge clk) begin
@@ -126,13 +161,13 @@ module tb_computer;
     //     firstTest = 1'b1;
     //   end
 
-    if (dut.dmem.RAM[84] === 32'h96)
+    if (dut.dmem.RAM[63] === 32'h96)
       begin
         $display("Successfully wrote 0x%4h at RAM[%3d]",84,32'h0096);
         firstTest = 1'b1;
       end
     if(memwrite) begin
-      if(dataadr === 84 & writedata === 32'h96)
+      if(dataadr === 63 & writedata === 32'h96)
       begin
         $display("Successfully wrote 0x%4h at RAM[%3d]",writedata,dataadr);
         firstTest = 1'b1;

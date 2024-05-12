@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // The Cooper Union
 // ECE 251 Spring 2024
-// Engineer: YOUR NAMES
+// Engineer: Zachary Hsieh and Andrew Yuan
 // 
 //     Create Date: 2023-02-07
 //     Module Name: alu
@@ -20,10 +20,35 @@ module alu
     //
     // ---------------- PORT DEFINITIONS ----------------
     //
+
+    input logic clk,
+    input logic [n-1:0] a, 
+    input logic [n-1:0] b,
+    input logic [2:0] op,
+    output logic [n-1: 0] y,
+    output logic zero
 );
     //
     // ---------------- MODULE DESIGN IMPLEMENTATION ----------------
     //
+
+
+    assign zero = (y==0);
+
+    always @(a,b,op) begin
+        case(op)
+            3'b000: y = a & b;  //and
+            3'b001: y = a | b;  //or
+            3'b010: y = a + b;  //add
+            3'b011: y = ~(a | b);   //nor
+            3'b100: y = a-b;    //subtract
+            3'b101: y = (a < b) ? {n{1'b1}} : {n{1'b0}};   //set less than
+            3'b110: y = a << b[4:0]; //sll; we have 32 bits, so our max shift amount of 32, which is 5 bits of b if we assume that b is the shift amount and a is the shifted number
+            3'b111: y = a >> b[4:0]; //slr
+        endcase
+    end
+
+
 
 endmodule
 
